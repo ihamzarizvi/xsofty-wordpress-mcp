@@ -4,7 +4,7 @@ Tags: mcp, ai, automation, administration, backup
 Requires at least: 6.5
 Tested up to: 6.8
 Requires PHP: 8.1
-Stable tag: 0.3.0
+Stable tag: 0.3.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,10 @@ No. They are outside the document root and use short-lived token-specific signed
 No. Full-site restore is intentionally excluded. It can restore a single plugin from a private checkpoint created before a safe plugin update.
 
 == Changelog ==
+
+= 0.3.1 =
+* Fix saved named access presets incorrectly reopening as Custom access.
+* Keep all 61 individual tools visibly selected when editing a Full site administrator connection.
 
 = 0.3.0 =
 * Add a redesigned, responsive WordPress control center with overview metrics, plain-language access presets, grouped tools, progressive technical details and safer mobile controls.

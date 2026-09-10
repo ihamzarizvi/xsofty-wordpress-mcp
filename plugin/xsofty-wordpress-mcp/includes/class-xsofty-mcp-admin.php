@@ -39,6 +39,24 @@ final class Xsofty_MCP_Admin {
         return ['name'=>substr(sanitize_text_field((string)($input['name']??'')),0,80),'scopes'=>$scopes,'allowed_tools'=>$tools,'expires_at'=>(int)$expires,'rate_limit'=>max(10,min(600,(int)($input['rate_limit']??120))),'enabled'=>!array_key_exists('enabled',$input)||(bool)$input['enabled']];
     }
 
+    private static function canonical_policy_values(array $values):array {$values=array_values(array_unique(array_map('strval',$values)));sort($values,SORT_STRING);return $values;}
+
+    public static function preset_for_policy(array $scopes,array $allowed_tools):string {
+        $scopes=self::canonical_policy_values($scopes);$allowed_tools=self::canonical_policy_values($allowed_tools);
+        foreach(self::preset_definitions() as $key=>$preset){
+            if($key==='custom')continue;
+            if(self::canonical_policy_values($preset['scopes'])===$scopes&&self::canonical_policy_values($preset['tools'])===$allowed_tools)return $key;
+        }
+        return 'custom';
+    }
+
+    public static function display_tools_for_preset(string $preset,array $allowed_tools):array {
+        if($preset==='custom')return $allowed_tools;
+        $definitions=self::preset_definitions();if(!isset($definitions[$preset]))return $allowed_tools;
+        if($preset==='administrator')return array_column(Xsofty_MCP_Tools::definitions(),'name');
+        return $definitions[$preset]['tools'];
+    }
+
     public static function tool_groups(): array {
         $meta=[
             'site_read'=>['label'=>'Site overview','description'=>'General site, SEO and health information.','icon'=>'dashicons-chart-area'],
@@ -116,11 +134,11 @@ final class Xsofty_MCP_Admin {
     }
 
     private static function token_form(array $record=[]):void {
-        $editing=!empty($record);$id=(string)($record['id']??'');$scopes=(array)($record['scopes']??self::scope_presets()['read_only']);$allowed=(array)($record['allowed_tools']??self::preset_definitions()['read_only']['tools']);$expires=(int)($record['expires_at']??0);$expiry_value=$expires?gmdate('Y-m-d\TH:i',$expires):'';$selected=$editing?'custom':'read_only';
+        $editing=!empty($record);$id=(string)($record['id']??'');$scopes=(array)($record['scopes']??self::scope_presets()['read_only']);$allowed=(array)($record['allowed_tools']??self::preset_definitions()['read_only']['tools']);$expires=(int)($record['expires_at']??0);$expiry_value=$expires?gmdate('Y-m-d\TH:i',$expires):'';$selected=$editing?self::preset_for_policy($scopes,$allowed):'read_only';$display_allowed=self::display_tools_for_preset($selected,$allowed);
         ?><form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="xwmcp-connection-form" data-connection-form>
         <input type="hidden" name="action" value="<?php echo esc_attr($editing?'xsofty_mcp_token_update':'xsofty_mcp_token_create'); ?>"><?php if($editing): ?><input type="hidden" name="token_id" value="<?php echo esc_attr($id); ?>"><?php endif; ?><?php self::nonce_field($editing?'xsofty_mcp_token_update':'xsofty_mcp_token_create'); ?>
         <div class="xwmcp-form-grid"><label class="xwmcp-field"><span>Connection name</span><input class="regular-text" required maxlength="80" name="name" placeholder="For example: Content team" value="<?php echo esc_attr($record['name']??''); ?>"><small>Use a name that identifies the person, team or assistant.</small></label><label class="xwmcp-field"><span>Expiry</span><input type="datetime-local" name="expires_at" value="<?php echo esc_attr($expiry_value); ?>"><small>UTC. Leave blank for no automatic expiry.</small></label><label class="xwmcp-field"><span>Request limit</span><span class="xwmcp-input-unit"><input type="number" min="10" max="600" name="rate_limit" value="<?php echo esc_attr($record['rate_limit']??120); ?>"><em>per minute</em></span><small>Protects the site from excessive requests.</small></label><?php if($editing): ?><label class="xwmcp-field"><span>Connection status</span><span class="xwmcp-switch-row"><input type="checkbox" name="enabled" value="1" <?php checked(!empty($record['enabled'])); ?>><strong>Enabled</strong></span><small>Disable temporarily without revoking the token.</small></label><?php endif; ?></div>
-        <?php self::preset_picker($selected);self::scope_picker($scopes); ?><details class="xwmcp-advanced" data-advanced-tools><summary>Customize individual tools <span>Advanced</span></summary><p class="xwmcp-help">With Custom access, leave every tool unchecked to allow every tool covered by the selected capability groups.</p><?php self::tool_picker($allowed); ?></details>
+        <?php self::preset_picker($selected);self::scope_picker($scopes); ?><details class="xwmcp-advanced" data-advanced-tools><summary>Customize individual tools <span>Advanced</span></summary><p class="xwmcp-help">With Custom access, leave every tool unchecked to allow every tool covered by the selected capability groups.</p><?php self::tool_picker($display_allowed); ?></details>
         <div class="xwmcp-form-actions"><?php submit_button($editing?'Save connection':'Create secure connection',$editing?'secondary':'primary','submit',false,['id'=>$editing?'xwmcp-save-connection-'.$id:'xwmcp-create-connection']); ?><span>Changes are validated against WordPress permissions when used.</span></div></form><?php
     }
 

@@ -2,6 +2,13 @@
 
 All notable changes to Xsofty WordPress MCP Bridge are documented here.
 
+## [0.3.1] - 2026-09-10
+
+### Fixed
+
+- Saved named access policies now reopen with their matching preset instead of always showing Custom access
+- Full site administrator connections now display all 61 individual tools as selected while retaining the secure empty-allowlist-means-all storage model
+
 ## [0.3.0] - 2026-09-10
 
 ### Added

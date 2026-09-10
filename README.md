@@ -39,7 +39,7 @@ Most automation integrations are either too limited or far too powerful. Xsofty 
 | Backups | Private synchronous/asynchronous backups, schedules, retention and signed downloads |
 | Governance | Audit export, approval queue and one-time approved execution |
 
-The current v0.3.0 surface contains **61 curated tools** and **5 scoped resources**.
+The current v0.3.1 surface contains **61 curated tools** and **5 scoped resources**.
 
 ## Access presets
 
@@ -66,7 +66,7 @@ The WordPress control center translates technical permissions into recognizable 
 
 ## Installation
 
-1. Download `xsofty-wordpress-mcp-0.3.0.zip` from [Releases](https://github.com/ihamzarizvi/xsofty-wordpress-mcp/releases/latest).
+1. Download `xsofty-wordpress-mcp-0.3.1.zip` from [Releases](https://github.com/ihamzarizvi/xsofty-wordpress-mcp/releases/latest).
 2. In WordPress, open **Plugins → Add New → Upload Plugin**.
 3. Upload the ZIP and activate **Xsofty WordPress MCP Bridge**.
 4. Open **Settings → Xsofty MCP**.
@@ -120,7 +120,7 @@ bash scripts/test.sh
 Build the installable archive:
 
 ```bash
-bash scripts/build-release.sh 0.3.0
+bash scripts/build-release.sh 0.3.1
 ```
 
 Project layout:

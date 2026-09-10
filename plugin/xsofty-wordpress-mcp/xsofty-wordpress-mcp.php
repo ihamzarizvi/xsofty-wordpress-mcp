@@ -3,7 +3,7 @@
  * Plugin Name: Xsofty WordPress MCP Bridge
  * Plugin URI: https://xsofty.com
  * Description: Secure Model Context Protocol tools for managing WordPress content, media, plugins, themes, maintenance and backups.
- * Version: 0.3.0
+ * Version: 0.3.1
  * Author: Hamza Rizvi, Xsofty
  * Author URI: https://xsofty.com
  * Requires at least: 6.5
@@ -18,7 +18,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('XSOFTY_WP_MCP_VERSION', '0.3.0');
+define('XSOFTY_WP_MCP_VERSION', '0.3.1');
 define('XSOFTY_WP_MCP_FILE', __FILE__);
 define('XSOFTY_WP_MCP_DIR', plugin_dir_path(__FILE__));
 

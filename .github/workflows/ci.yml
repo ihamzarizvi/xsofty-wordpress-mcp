@@ -35,6 +35,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
       - name: Build package
-        run: bash scripts/build-release.sh 0.3.0
+        run: bash scripts/build-release.sh 0.3.1
       - name: Test archive
-        run: unzip -t release/xsofty-wordpress-mcp-0.3.0.zip
+        run: unzip -t release/xsofty-wordpress-mcp-0.3.1.zip
