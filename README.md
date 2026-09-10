@@ -9,7 +9,7 @@ A security-first WordPress plugin that gives Hermes Agent and compatible MCP cli
 
 It enables useful AI-assisted site operations without exposing WordPress passwords, SSH, shell commands, raw SQL, arbitrary PHP, or unrestricted filesystem access.
 
-> **Private beta:** Review the security model, create a backup, and test on staging before enabling write access on a production website.
+> **Security-sensitive beta:** Review the security model, create a backup, and test on staging before enabling write access on a production website.
 
 ![Xsofty WordPress MCP control center](docs/images/admin-overview.jpg)
 
@@ -144,11 +144,18 @@ docs/images/                  Verified admin-interface captures
 
 - [Technical plugin guide](plugin/xsofty-wordpress-mcp/README.md)
 - [Security policy](SECURITY.md)
+- [Architecture](docs/architecture.md)
 - [Contribution guide](CONTRIBUTING.md)
+- [Copyright notices](NOTICE.md)
+- [Xsofty trademark policy](TRADEMARKS.md)
 - [Changelog](CHANGELOG.md)
 
 ## License
 
-Licensed under GPL-2.0-or-later. See [LICENSE](LICENSE).
+The code is licensed under GPL-2.0-or-later. See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
+
+Copyright © 2026 **Hamza Rizvi and Xsofty (Private) Limited**. Distributed copies and modified versions must preserve the applicable copyright and license notices.
+
+The GPL license covers the code, not the Xsofty brand. Unofficial forks may not use Xsofty names, logos or product branding in a way that suggests they are official or endorsed. See [TRADEMARKS.md](TRADEMARKS.md).
 
 Developed by **Xsofty (Private) Limited**.

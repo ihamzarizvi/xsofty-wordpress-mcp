@@ -14,6 +14,7 @@ All notable changes to Xsofty WordPress MCP Bridge are documented here.
 - Private synchronous/asynchronous backups, schedules, retention and signed downloads
 - Five scoped read-only MCP resources
 - Deterministic source, security, admin-contract and release-invariant tests
+- GPL-2.0-or-later publication with explicit Hamza Rizvi/Xsofty copyright notices, contribution terms and a separate trademark policy
 
 ### Security
 

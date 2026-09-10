@@ -38,7 +38,7 @@ The plugin does not expose shell execution, arbitrary PHP/JavaScript, raw SQL, W
 
 Do not open a public issue for a suspected vulnerability.
 
-For this private repository, use GitHub's **Security → Report a vulnerability** flow if private vulnerability reporting is enabled. Otherwise contact the repository owner privately and include:
+Use GitHub's **Security → Report a vulnerability** flow when private vulnerability reporting is available. Otherwise contact the repository owner privately and include:
 
 - A concise description and impact
 - Affected version

@@ -1,6 +1,12 @@
 # Contributing
 
-This is a private, security-sensitive WordPress integration. Keep changes focused, reviewable and fail-closed.
+This is a security-sensitive open-source WordPress integration. Keep changes focused, reviewable and fail-closed.
+
+## Contribution license
+
+By submitting a contribution, you certify that you have the right to submit it and agree that it will be distributed under the repository's GPL-2.0-or-later license. Copyright in your original contribution remains yours unless separately assigned in writing.
+
+Contributions become part of the official Xsofty WordPress MCP Bridge only after owner review and merge. A pull request does not grant permission to present an independent fork as an official Xsofty product. See [TRADEMARKS.md](TRADEMARKS.md).
 
 ## Development requirements
 

@@ -10,6 +10,8 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Secure, scoped Model Context Protocol tools and resources for WordPress administration through Hermes and compatible MCP clients.
 
+Copyright 2026 Hamza Rizvi and Xsofty (Private) Limited. Licensed under GPLv2 or later. The GPL covers the code but does not grant rights to use Xsofty branding for unofficial derivatives.
+
 == Description ==
 
 Provides a stateless Streamable HTTP / JSON-RPC 2.0 endpoint with multiple named hashed bearer credentials, per-token scopes/tool allowlists/expiry/revocation, WordPress capability checks, confirmation gates, optional administrator approvals, rate limits, origin validation, audit logging, private verified backups and safe plugin checkpoints.

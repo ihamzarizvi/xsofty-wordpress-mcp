@@ -1,0 +1,8 @@
+Xsofty WordPress MCP Bridge
+Copyright (C) 2026 Hamza Rizvi and Xsofty (Private) Limited.
+
+This software is licensed under the GNU General Public License, version 2 or any later version. The complete license is included in license.txt.
+
+Distributed copies and modified versions must preserve applicable copyright notices, license notices and disclaimers as required by the GPL.
+
+The GPL covers the source code but does not grant rights to present an unofficial modified fork as an official Xsofty product. See TRADEMARKS.md for the separate branding policy.

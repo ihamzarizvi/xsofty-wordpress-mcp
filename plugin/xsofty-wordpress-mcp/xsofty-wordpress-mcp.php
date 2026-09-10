@@ -4,11 +4,16 @@
  * Plugin URI: https://xsofty.com
  * Description: Secure Model Context Protocol tools for managing WordPress content, media, plugins, themes, maintenance and backups.
  * Version: 0.3.0
- * Author: Xsofty
+ * Author: Hamza Rizvi, Xsofty
  * Author URI: https://xsofty.com
  * Requires at least: 6.5
  * Requires PHP: 8.1
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: xsofty-wordpress-mcp
+ *
+ * Copyright (C) 2026 Hamza Rizvi and Xsofty (Private) Limited.
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
 if (!defined('ABSPATH')) exit;
