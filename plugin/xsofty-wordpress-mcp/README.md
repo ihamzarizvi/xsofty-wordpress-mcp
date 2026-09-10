@@ -1,6 +1,6 @@
 # Xsofty WordPress MCP Bridge
 
-A private WordPress plugin exposing a curated administration surface to Hermes Agent and other MCP clients over stateless Streamable HTTP / JSON-RPC 2.0.
+An open-source WordPress plugin exposing a curated administration surface to compatible MCP clients over stateless Streamable HTTP / JSON-RPC 2.0.
 
 ## Requirements
 
@@ -30,25 +30,9 @@ HTTP is rejected unless development mode is explicitly enabled. Use that opt-in 
 1. Upload the release ZIP in **Plugins → Add New → Upload Plugin**, or copy `xsofty-wordpress-mcp` into `wp-content/plugins/`.
 2. Activate **Xsofty WordPress MCP Bridge**.
 3. Open **Settings → Xsofty MCP**.
-4. Create a named connection with the minimum scopes and optional tool allowlist.
+4. Create a named connection with the least-powerful suitable access preset.
 5. Copy the token immediately; it is shown once.
-6. Store it in `~/.hermes/.env`, then reference it from Hermes configuration:
-
-```text
-MUVE_WORDPRESS_MCP_TOKEN=<one-time-token>
-```
-
-```yaml
-mcp_servers:
-  wordpress-site:
-    url: https://example.com/wp-json/xsofty-mcp/v1/mcp
-    headers:
-      Authorization: "Bearer ${MUVE_WORDPRESS_MCP_TOKEN}"
-    connect_timeout: 30
-    enabled: true
-```
-
-Run `hermes mcp test wordpress-site` after reloading MCP servers.
+6. Follow the official repository's [Codex, Claude Code, Grok, Hermes Agent, and OpenClaw setup guide](https://github.com/ihamzarizvi/xsofty-wordpress-mcp/blob/main/docs/client-setup.md).
 
 ## Protocol
 

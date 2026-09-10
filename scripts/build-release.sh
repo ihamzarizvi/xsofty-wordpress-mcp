@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="${1:-0.3.1}"
+VERSION="${1:-0.3.2}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SOURCE="$ROOT/plugin/xsofty-wordpress-mcp"
 OUTPUT="$ROOT/release/xsofty-wordpress-mcp-$VERSION.zip"

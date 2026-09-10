@@ -2,6 +2,14 @@
 
 All notable changes to Xsofty WordPress MCP Bridge are documented here.
 
+## [0.3.2] - 2026-09-10
+
+### Added
+
+- Verified connection instructions for Codex, Claude Code, Grok, Hermes Agent and OpenClaw
+- Responsive client setup cards in the WordPress control center using the live site endpoint
+- Dedicated GitHub guide covering commands, secure token handling, verification, removal and client-specific limitations
+
 ## [0.3.1] - 2026-09-10
 
 ### Fixed

@@ -33,6 +33,7 @@ function user_can($user_id, $capability) { return (int) $user_id === 1 && $capab
 function get_users($args = []) { return [1]; }
 function sanitize_key($key) { return preg_replace('/[^a-z0-9_\-]/', '', strtolower((string) $key)); }
 function sanitize_text_field($value) { return trim(strip_tags((string) $value)); }
+function esc_url_raw($value) { return filter_var((string) $value, FILTER_SANITIZE_URL); }
 function get_current_blog_id() { return 1; }
 function wp_using_ext_object_cache() { return (bool)$GLOBALS['xwmcp_ext_object_cache']; }
 function wp_cache_add($key,$value,$group='',$ttl=0) { $full=$group.'|'.$key;if(array_key_exists($full,$GLOBALS['xwmcp_cache']))return false;$GLOBALS['xwmcp_cache'][$full]=$value;return true; }

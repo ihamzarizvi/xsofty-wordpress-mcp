@@ -39,7 +39,7 @@ Most automation integrations are either too limited or far too powerful. Xsofty 
 | Backups | Private synchronous/asynchronous backups, schedules, retention and signed downloads |
 | Governance | Audit export, approval queue and one-time approved execution |
 
-The current v0.3.1 surface contains **61 curated tools** and **5 scoped resources**.
+The current v0.3.2 surface contains **61 curated tools** and **5 scoped resources**.
 
 ## Access presets
 
@@ -66,7 +66,7 @@ The WordPress control center translates technical permissions into recognizable 
 
 ## Installation
 
-1. Download `xsofty-wordpress-mcp-0.3.1.zip` from [Releases](https://github.com/ihamzarizvi/xsofty-wordpress-mcp/releases/latest).
+1. Download `xsofty-wordpress-mcp-0.3.2.zip` from [Releases](https://github.com/ihamzarizvi/xsofty-wordpress-mcp/releases/latest).
 2. In WordPress, open **Plugins → Add New → Upload Plugin**.
 3. Upload the ZIP and activate **Xsofty WordPress MCP Bridge**.
 4. Open **Settings → Xsofty MCP**.
@@ -74,23 +74,19 @@ The WordPress control center translates technical permissions into recognizable 
 6. Copy the token immediately. WordPress will not display it again.
 7. Store it in a protected environment variable or password manager.
 
-### MCP client configuration
+## Connect from your AI client
 
-```yaml
-mcp_servers:
-  wordpress-site:
-    url: https://example.com/wp-json/xsofty-mcp/v1/mcp
-    headers:
-      Authorization: "Bearer ${WORDPRESS_MCP_TOKEN}"
-    connect_timeout: 30
-    enabled: true
-```
+Verified setup instructions are available for:
 
-For Hermes Agent, reload the MCP configuration and run:
+| Client | Supported route |
+| --- | --- |
+| Codex | Streamable HTTP with an environment-backed bearer token |
+| Claude Code | User-scoped remote HTTP server with an authorization header |
+| Grok | Grok CLI; grok.com custom connectors on Business or Enterprise |
+| Hermes Agent | Environment-backed `mcp_servers` configuration |
+| OpenClaw | Streamable HTTP through `mcp.servers` and Gateway environment expansion |
 
-```bash
-hermes mcp test wordpress-site
-```
+Read the complete **[MCP client setup guide](docs/client-setup.md)** for exact commands, configuration, verification, removal, and client-specific limitations.
 
 ## Security boundaries
 
@@ -120,7 +116,7 @@ bash scripts/test.sh
 Build the installable archive:
 
 ```bash
-bash scripts/build-release.sh 0.3.1
+bash scripts/build-release.sh 0.3.2
 ```
 
 Project layout:

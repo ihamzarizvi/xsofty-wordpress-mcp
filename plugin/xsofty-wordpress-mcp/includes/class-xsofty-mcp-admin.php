@@ -57,6 +57,36 @@ final class Xsofty_MCP_Admin {
         return $definitions[$preset]['tools'];
     }
 
+    public static function client_setup_definitions(string $endpoint):array {
+        return [
+            'codex'=>[
+                'label'=>'Codex','summary'=>'Codex CLI and IDE','description'=>'Uses Streamable HTTP and reads the bearer token from an environment variable.',
+                'code'=>implode("\n",["export WORDPRESS_MCP_TOKEN='PASTE_YOUR_ONE_TIME_TOKEN_HERE'",'',"codex mcp add wordpress-site \\",'  --url '.esc_url_raw($endpoint).' \\','  --bearer-token-env-var WORDPRESS_MCP_TOKEN','', 'codex mcp list']),
+                'verify'=>'Open Codex and use /mcp to inspect the server.','docs'=>'https://developers.openai.com/codex/mcp/',
+            ],
+            'claude-code'=>[
+                'label'=>'Claude Code','summary'=>'User-scoped HTTP connection','description'=>'Adds the server to Claude Code user scope so the credential is not written to a project repository.',
+                'code'=>implode("\n",["export WORDPRESS_MCP_TOKEN='PASTE_YOUR_ONE_TIME_TOKEN_HERE'",'',"claude mcp add \\",'  --scope user \\','  --transport http \\','  wordpress-site \\','  '.esc_url_raw($endpoint).' \\','  --header "Authorization: Bearer $WORDPRESS_MCP_TOKEN"','', 'claude mcp list']),
+                'verify'=>'Start Claude Code and use /mcp. Protect its user-level configuration as a credential.','docs'=>'https://code.claude.com/docs/en/mcp',
+            ],
+            'grok'=>[
+                'label'=>'Grok','summary'=>'Grok CLI or Business connector','description'=>'Grok CLI supports environment-expanded headers. grok.com custom connectors require a Business or Enterprise team administrator.',
+                'code'=>implode("\n",["export WORDPRESS_MCP_TOKEN='PASTE_YOUR_ONE_TIME_TOKEN_HERE'",'','Add to ~/.grok/config.toml:','', '[mcp_servers.wordpress-site]','url = "'.esc_url_raw($endpoint).'"','headers = { Authorization = "Bearer ${WORDPRESS_MCP_TOKEN}" }','', 'grok mcp doctor wordpress-site','grok mcp list']),
+                'verify'=>'For Grok Business, add Other under console.x.ai → Grok Business → Connectors and use the public HTTPS endpoint.','docs'=>'https://docs.x.ai/build/features/mcp-servers',
+            ],
+            'hermes-agent'=>[
+                'label'=>'Hermes Agent','summary'=>'Environment-backed YAML','description'=>'Stores the token in the protected Hermes environment file and references it from config.yaml.',
+                'code'=>implode("\n",['WORDPRESS_MCP_TOKEN=PASTE_YOUR_ONE_TIME_TOKEN_HERE','','mcp_servers:','  wordpress-site:','    url: "'.esc_url_raw($endpoint).'"','    headers:','      Authorization: "Bearer ${WORDPRESS_MCP_TOKEN}"','    connect_timeout: 30','    enabled: true','', 'hermes mcp test wordpress-site']),
+                'verify'=>'Use hermes config env-path for the token, hermes config edit for YAML, then /reload-mcp.','docs'=>'https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp',
+            ],
+            'openclaw'=>[
+                'label'=>'OpenClaw','summary'=>'Gateway Streamable HTTP','description'=>'Adds an environment-backed authorization header through the OpenClaw MCP configuration.',
+                'code'=>implode("\n",["export WORDPRESS_MCP_TOKEN='PASTE_YOUR_ONE_TIME_TOKEN_HERE'",'','mcp: {','  servers: {','    "wordpress-site": {','      url: "'.esc_url_raw($endpoint).'",','      transport: "streamable-http",','      enabled: true,','      headers: {','        Authorization: "Bearer ${WORDPRESS_MCP_TOKEN}",','      },','    },','  },','}','','openclaw mcp doctor wordpress-site --probe','openclaw mcp status --verbose']),
+                'verify'=>'Add the block under Control UI → Settings → MCP. Ensure the Gateway process receives the environment variable.','docs'=>'https://docs.openclaw.ai/tools/mcp',
+            ],
+        ];
+    }
+
     public static function tool_groups(): array {
         $meta=[
             'site_read'=>['label'=>'Site overview','description'=>'General site, SEO and health information.','icon'=>'dashicons-chart-area'],
@@ -167,12 +197,9 @@ final class Xsofty_MCP_Admin {
 
         <section id="xwmcp-activity" class="xwmcp-section"><div class="xwmcp-section__head"><div><span class="xwmcp-kicker">Activity</span><h2>Administrator approvals</h2><p>Review sensitive requests before an assistant can execute them.</p></div></div><div class="xwmcp-activity-card"><?php Xsofty_MCP_Control::render_admin(); ?></div></section>
 
-        <section id="xwmcp-connect" class="xwmcp-section"><div class="xwmcp-section__head"><div><span class="xwmcp-kicker">Setup</span><h2>Connect Hermes securely</h2><p>Store the one-time token in an environment variable. Never paste a real token into configuration files or source control.</p></div></div><div class="xwmcp-code-card"><div><span>Hermes configuration</span><button type="button" class="button button-small" data-copy-target="xwmcp-hermes-code">Copy example</button></div><pre id="xwmcp-hermes-code">mcp_servers:
-  wordpress-site:
-    url: <?php echo esc_html(rest_url('xsofty-mcp/v1/mcp')); ?>
-    headers:
-      Authorization: "Bearer ${WORDPRESS_MCP_TOKEN}"
-    enabled: true</pre></div><ol class="xwmcp-steps"><li><strong>Create a connection</strong><span>Choose the least powerful preset that can do the job.</span></li><li><strong>Copy the token once</strong><span>Store it in a protected environment variable or password manager.</span></li><li><strong>Add the endpoint</strong><span>Use the example above, then test connection and tool discovery.</span></li></ol></section>
+        <section id="xwmcp-connect" class="xwmcp-section"><div class="xwmcp-section__head"><div><span class="xwmcp-kicker">Setup</span><h2>Connect your AI client securely</h2><p>Create a separate least-privilege connection for each client. Keep the one-time token in a protected environment or user-level configuration—never in source control.</p></div></div><div class="xwmcp-client-grid">
+        <?php foreach(self::client_setup_definitions(rest_url('xsofty-mcp/v1/mcp')) as $key=>$client): $code_id='xwmcp-client-code-'.$key; ?><details class="xwmcp-client" data-client="<?php echo esc_attr($key); ?>"><summary><span class="dashicons dashicons-rest-api" aria-hidden="true"></span><span><strong><?php echo esc_html($client['label']); ?></strong><small><?php echo esc_html($client['summary']); ?></small></span></summary><div class="xwmcp-client__body"><p><?php echo esc_html($client['description']); ?></p><div class="xwmcp-code-card"><div><span>Configuration</span><button type="button" class="button button-small" data-copy-target="<?php echo esc_attr($code_id); ?>">Copy example</button></div><pre id="<?php echo esc_attr($code_id); ?>"><?php echo esc_html($client['code']); ?></pre></div><p class="xwmcp-client__verify"><span class="dashicons dashicons-yes-alt" aria-hidden="true"></span><?php echo esc_html($client['verify']); ?></p><a href="<?php echo esc_url($client['docs']); ?>" target="_blank" rel="noopener noreferrer">Official client documentation</a></div></details><?php endforeach; ?>
+        </div><ol class="xwmcp-steps"><li><strong>Create one connection per client</strong><span>Choose the least powerful preset that can do the job.</span></li><li><strong>Copy the token once</strong><span>Replace only the placeholder and keep the credential out of repositories and screenshots.</span></li><li><strong>Verify before using write tools</strong><span>Test discovery, call a harmless read tool, then review the activity log.</span></li></ol></section>
         </div><?php
     }
 }
