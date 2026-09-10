@@ -1,0 +1,16 @@
+<?php
+require __DIR__.'/bootstrap.php';
+function expect_admin_ui(bool $condition,string $message):void{if(!$condition)throw new RuntimeException($message);}
+$definitions=Xsofty_MCP_Tools::definitions();$known=array_column($definitions,'name');$scope_by_tool=[];foreach($definitions as $tool)$scope_by_tool[$tool['name']]=$tool['scope'];
+$groups=Xsofty_MCP_Admin::tool_groups();$grouped=[];foreach($groups as $scope=>$group){expect_admin_ui($group['label']!==''&&$group['description']!==''&&!empty($group['icon']),'Every tool group needs plain-language metadata.');foreach($group['tools'] as $tool){expect_admin_ui($tool['scope']===$scope,'Tool was placed outside its scope group.');$grouped[]=$tool['name'];}}
+expect_admin_ui(count($grouped)===61&&count(array_unique($grouped))===61,'All 61 tools must appear exactly once.');sort($grouped);$sorted=$known;sort($sorted);expect_admin_ui($grouped===$sorted,'Grouped inventory must match the registry exactly.');
+$presets=Xsofty_MCP_Admin::preset_definitions();expect_admin_ui(array_keys($presets)===['read_only','content_manager','seo_marketing','site_maintenance','administrator','custom'],'Layman presets must remain complete and ordered.');
+foreach($presets as $key=>$preset){expect_admin_ui($preset['label']!==''&&$preset['description']!==''&&is_array($preset['scopes'])&&is_array($preset['tools']),"Preset $key is incomplete.");foreach($preset['tools'] as $tool){expect_admin_ui(isset($scope_by_tool[$tool]),"Preset $key contains an unknown tool.");expect_admin_ui(in_array($scope_by_tool[$tool],$preset['scopes'],true),"Preset $key grants a tool without its scope.");}}
+expect_admin_ui(!in_array('plugins',$presets['content_manager']['scopes'],true)&&!in_array('backups',$presets['content_manager']['scopes'],true),'Content manager must not grant operations access.');
+expect_admin_ui(!in_array('install_plugin',$presets['seo_marketing']['tools'],true)&&!in_array('patch_theme_file',$presets['seo_marketing']['tools'],true),'SEO preset must not grant plugin or theme mutation.');
+expect_admin_ui($presets['administrator']['tools']===[]&&$presets['administrator']['scopes']===Xsofty_MCP_Auth::valid_scopes(),'Administrator preset must deliberately represent all curated tools.');
+$admin=file_get_contents(dirname(__DIR__).'/plugin/xsofty-wordpress-mcp/includes/class-xsofty-mcp-admin.php');$css=file_get_contents(dirname(__DIR__).'/plugin/xsofty-wordpress-mcp/assets/admin.css');$js=file_get_contents(dirname(__DIR__).'/plugin/xsofty-wordpress-mcp/assets/admin.js');
+foreach(['admin_enqueue_scripts','xwmcp-overview','xwmcp-connections','xwmcp-controls','xwmcp-activity','xwmcp-connect','data-global-preset','data-tool-picker'] as $marker)expect_admin_ui(str_contains($admin,$marker),"Admin UI marker missing: $marker");
+expect_admin_ui(str_contains($css,'--xwmcp-lime:#c4ef17')&&str_contains($css,'focus-visible')&&str_contains($css,'prefers-reduced-motion')&&str_contains($css,'@media(max-width:782px)'),'Admin styles must preserve brand, focus, reduced-motion and responsive behavior.');
+foreach(['navigator.clipboard','data-global-preset','xwmcp-tool-search','activateCustom'] as $marker)expect_admin_ui(str_contains($js,$marker),"Admin interaction marker missing: $marker");
+print("ADMIN_UI_PRESET_CONTRACT_PASS presets=".count($presets)." groups=".count($groups)." tools=".count($grouped)."\n");

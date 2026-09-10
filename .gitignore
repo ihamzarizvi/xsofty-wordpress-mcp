@@ -1,0 +1,17 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+.idea/
+.vscode/
+*.log
+*.zip
+/dist/
+/release/
+/artifacts/
+/tests-runtime/
+/tests/wordpress/
+/vendor/
+node_modules/
+.env
+.env.*
+!.env.example

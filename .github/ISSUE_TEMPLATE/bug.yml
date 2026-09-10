@@ -1,0 +1,54 @@
+name: Bug report
+description: Report a reproducible functional problem
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include passwords, bearer tokens, backup archives or customer data. Report security vulnerabilities privately as described in SECURITY.md.
+  - type: input
+    id: version
+    attributes:
+      label: Plugin version
+      placeholder: 0.3.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: WordPress and PHP versions
+      placeholder: WordPress 6.8, PHP 8.2
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Authentication and policy
+        - Content and media
+        - SEO and redirects
+        - Plugins and themes
+        - Backups and jobs
+        - Admin interface
+        - Protocol and transport
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and reproduction steps
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: Remove credentials, private paths and customer data before attaching logs or screenshots.
