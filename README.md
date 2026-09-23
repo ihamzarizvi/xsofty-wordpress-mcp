@@ -154,4 +154,4 @@ Copyright © 2026 **Hamza Rizvi and Xsofty (Private) Limited**. Distributed copi
 
 The GPL license covers the code, not the Xsofty brand. Unofficial forks may not use Xsofty names, logos or product branding in a way that suggests they are official or endorsed. See [TRADEMARKS.md](TRADEMARKS.md).
 
-Developed by **Xsofty (Private) Limited**.
+Developed by **[Xsofty (Private) Limited](https://xsofty.com)**.
